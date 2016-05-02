@@ -7,6 +7,19 @@ from rest_framework.renderers import JSONRenderer
 from pxl_master.pxl.models import Snippet
 from pxl_master.pxl.serializers import UserSerializer, GroupSerializer, SnippetSerializer
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .weather_api import weather_api_json
+
+
+
+@api_view(['GET'])
+def weather_api_endpoint(request, format=None):
+    """API view for Seattle Weather With Dummy Data."""
+    return Response({'location': 'Seattle, WA',
+                     'temperature': '80 F, something Celcius',
+                     'weather': 'sunny'})
+
 
 class JSONResponse(HttpResponse):
     """
