@@ -108,5 +108,28 @@ def form_mlb_json():
 
 
 def get_nhl_data():
-    nhl_data = requests.get(nhl_endpoint)
+    nhl_data = requests.get(NHL_ENDPOINT)
     return nhl_data.content.decode()[15:-1]
+
+
+def form_nhl_json():
+    nhl_games = json.loads(get_nhl_data())['games']
+    nhl_json = {'games': []}
+    for game in nhl_games:
+        home = game['htn']
+        away = game['atn']
+        home_score = game['hts']
+        away_score = game['ats']
+        time = game['bs']
+        date = game['ts']
+        game_dict = {
+            'home': home,
+            'away': away,
+            'time': time,
+            'home_score': home_score,
+            'away_score': away_score,
+            'time': time,
+            'date': date
+        }
+        nhl_json['games'].append(game_dict)
+    return nhl_json
