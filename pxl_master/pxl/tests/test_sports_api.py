@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from pxl_master.pxl import sports_apis
-from mock_sports_dat import NFL_RESPONSE, PARSED_NFL_RESPONSE, MOCK_NFL_DATA, NFL_JSON
+from mock_sports_dat import NFL_RESPONSE, PARSED_NFL_RESPONSE, MOCK_NFL_DATA, NFL_JSON, MLB_RESPONSE, MLB_JSON
 from mock import patch
 
 
@@ -38,3 +38,19 @@ class SportsApiTests(TestCase):
         mock_method.return_value = MOCK_NFL_DATA
         result = sports_apis.form_nfl_json()
         self.assertJSONEqual(result, NFL_JSON)
+
+    @patch('pxl_master.pxl.sports_apis.requests')
+    def test_get_mlb_data(self, requests):
+        """Test get mlb data function."""
+        mock_method = requests.get().content.decode
+        mock_method.return_value = MLB_RESPONSE
+        result = sports_apis.get_mlb_data()
+        self.assertEqual(result, MLB_RESPONSE)
+
+    @patch('pxl_master.pxl.sports_apis.get_mlb_data')
+    def test_form_mlb_json(self, get_mlb_data):
+        """Test form mlb json."""
+        mock_method = get_mlb_data
+        mock_method.return_value = MLB_RESPONSE
+        result = sports_apis.form_mlb_json()
+        self.assertJSONEqual(result, MLB_JSON)
