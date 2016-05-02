@@ -9,12 +9,13 @@ NHL_ENDPOINT = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp'
 
 
 def parse_nfl_content(strng):
+    """Parse the NFL content for erroneous commas."""
     regex = re.compile(r'[,]+')
     return re.sub(regex, ',', strng)
 
 
 def get_nfl_data():
-    """Get NFL scores."""
+    """Generate response from NFL score endpoint."""
     nfl_dat = requests.get(NFL_ENDPOINT).content.decode()
     parsed_nfl_dat = parse_nfl_content(nfl_dat)
     nfl_json = json.loads(parsed_nfl_dat)
@@ -41,10 +42,11 @@ def form_nfl_json():
             'away_score': away_score
         }
         nfl_json['games'].append(game_dict)
-    return nfl_json
+    return json.dumps(nfl_json)
 
 
 def get_mlb_data():
+    """Generate response from MLB score endpoint."""
     day = str(datetime.date.today().day)
     month = str(datetime.date.today().month)
     year = str(datetime.date.today().year)
@@ -65,6 +67,7 @@ def get_mlb_data():
 
 
 def form_mlb_json():
+    """Form MLB JSON response."""
     mlb_data = get_mlb_data()
     mlb_games = json.loads(mlb_data)['data']['games']['game']
     mlb_json = {'games': []}
@@ -104,15 +107,17 @@ def form_mlb_json():
             'at_bat': at_bat,
         }
         mlb_json['games'].append(game_dict)
-    return mlb_json
+    return json.dumps(mlb_json)
 
 
 def get_nhl_data():
+    """Get response from NHL endpoint."""
     nhl_data = requests.get(NHL_ENDPOINT)
     return nhl_data.content.decode()[15:-1]
 
 
 def form_nhl_json():
+    """Form NHL JSON response."""
     nhl_games = json.loads(get_nhl_data())['games']
     nhl_json = {'games': []}
     for game in nhl_games:
@@ -132,4 +137,4 @@ def form_nhl_json():
             'date': date
         }
         nhl_json['games'].append(game_dict)
-    return nhl_json
+    return json.dumps(nhl_json)
