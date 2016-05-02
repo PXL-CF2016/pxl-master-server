@@ -62,3 +62,46 @@ def get_mlb_data():
             '/master_scoreboard.json']
         )
     return requests.get(mlb_endpoint).content.decode()
+
+
+def form_mlb_json():
+    mlb_data = get_mlb_data()
+    mlb_games = json.loads(mlb_data)['data']['games']['game']
+    mlb_json = {'games': []}
+    for game in mlb_games:
+        home = game['home_team_name']
+        away = game['away_team_name']
+        time = game['time']
+        try:
+            home_score = game['linescore']['r']['home']
+            away_score = game['linescore']['r']['away']
+        except KeyError:
+            home_score = '0'
+            away_score = '0'
+        try:
+            winning_pitcher = game['winning_pitcher']['last']
+            losing_pitcher = game['losing_pitcher']['last']
+        except KeyError:
+            winning_pitcher = ''
+            losing_pitcher = ''
+        try:
+            pitching = game['pitcher']['last']
+        except KeyError:
+            pitching = ''
+        try:
+            at_bat = game['batter']['last']
+        except KeyError:
+            at_bat = ''
+        game_dict = {
+            'home': home,
+            'away': away,
+            'time': time,
+            'home_score': home_score,
+            'away_score': away_score,
+            'winning_pitcher': winning_pitcher,
+            'losing_pitcher': losing_pitcher,
+            'pitching': pitching,
+            'at_bat': at_bat,
+        }
+        mlb_json['games'].append(game_dict)
+    return mlb_json
