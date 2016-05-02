@@ -16,9 +16,12 @@ from .weather_api import weather_api_json
 @api_view(['GET'])
 def weather_api_endpoint(request, format=None):
     """API view for Seattle Weather With Dummy Data."""
-    return Response({'location': 'Seattle, WA',
-                     'temperature': '80 F, something Celcius',
-                     'weather': 'sunny'})
+    return Response({
+                    "location": "Seattle, WA",
+                    "weather": "partlycloudy",
+                    "temperature": "76.5 F (24.7 C)"
+                    })
+    # return Response(weather_api_json()) is the real API call
 
 
 class JSONResponse(HttpResponse):

@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import os
-from urllib.request import urlopen
+import requests
 import json
 
 WEATHER_URL = os.environ.get('WEATHER_API_URL')
 
 
 def weather_api_call():
-    """API call for current Seattle weather data."""
-    weather_data = urlopen(WEATHER_URL)
-    json_string = (weather_data.read()).decode('utf-8')
-    parsed_json = json.loads(json_string)
-    return parsed_json
+    """API call for current Seattle weather data in JSON."""
+    weather_data = requests.get(WEATHER_URL).json()
+    return weather_data
 
 def weather_api_json():
     """Grab temperature, forecast, and location data and return as json."""
@@ -24,4 +22,7 @@ def weather_api_json():
         'location': location,
         'temperature': temp,
         'weather': weather}
-    return print(json_format)
+    return json_format
+
+if __name__ == "__main__":
+    weather_api_json()
