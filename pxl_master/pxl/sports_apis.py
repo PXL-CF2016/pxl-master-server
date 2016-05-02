@@ -19,3 +19,26 @@ def get_nfl_data():
     parsed_nfl_dat = parse_nfl_content(nfl_dat)
     nfl_json = json.loads(parsed_nfl_dat)
     return nfl_json
+
+
+def form_nfl_json():
+    """Form NFL JSON response."""
+    nfl_games = get_nfl_data()['ss']
+    nfl_json = {'games': []}
+    for game in nfl_games:
+        day = game[0]
+        time = game[1]
+        home = game[3]
+        away = game[4]
+        home_score = '0'
+        away_score = '0'
+        game_dict = {
+            'home': home,
+            'away': away,
+            'day': day,
+            'time': time,
+            'home_score': home_score,
+            'away_score': away_score
+        }
+        nfl_json['games'].append(game_dict)
+    return nfl_json
