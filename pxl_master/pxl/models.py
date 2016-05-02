@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
-class PXLBoard(models.Model):
+class PXLBoardModel(models.Model):
     """PXL Board model."""
 
     mlb = models.BooleanField()
@@ -20,9 +20,9 @@ class UserModel(models.Model):
         on_delete=models.CASCADE,
         related_name='profile'
     )
-    pxlboard_1 = models.OneToOneField(PXLBoard)
-    pxlboard_2 = models.OneToOneField(PXLBoard)
-    pxlboard_3 = models.OneToOneField(PXLBoard)
+    pxlboard_1 = models.OneToOneField(PXLBoardModel)
+    pxlboard_2 = models.OneToOneField(PXLBoardModel)
+    pxlboard_3 = models.OneToOneField(PXLBoardModel)
 
     @property
     def is_active(self):
