@@ -105,3 +105,8 @@ def form_mlb_json():
         }
         mlb_json['games'].append(game_dict)
     return mlb_json
+
+
+def get_nhl_data():
+    nhl_data = requests.get(nhl_endpoint)
+    return nhl_data.content.decode()[15:-1]
