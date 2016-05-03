@@ -11,6 +11,11 @@ class PXLBoardModel_1(models.Model):
     nhl = models.BooleanField()
     headlines = models.BooleanField()
     weather = models.BooleanField()
+    owner = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=None,
+    )
 
 
 class PXLBoardModel_2(models.Model):
@@ -21,6 +26,11 @@ class PXLBoardModel_2(models.Model):
     nhl = models.BooleanField()
     headlines = models.BooleanField()
     weather = models.BooleanField()
+    owner = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=None,
+    )
 
 
 class PXLBoardModel_3(models.Model):
@@ -31,6 +41,11 @@ class PXLBoardModel_3(models.Model):
     nhl = models.BooleanField()
     headlines = models.BooleanField()
     weather = models.BooleanField()
+    owner = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=None,
+    )
 
 
 @python_2_unicode_compatible
@@ -42,8 +57,5 @@ class UserModel(models.Model):
         on_delete=models.CASCADE,
         related_name='profile'
     )
-    pxlboard_1 = models.OneToOneField(PXLBoardModel_1)
-    pxlboard_2 = models.OneToOneField(PXLBoardModel_2)
-    pxlboard_3 = models.OneToOneField(PXLBoardModel_3)
 
     objects = models.Manager()

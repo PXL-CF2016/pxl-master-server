@@ -1,4 +1,4 @@
-from pxl_master.pxl import models
+from pxl import models
 from rest_framework import serializers
 
 
