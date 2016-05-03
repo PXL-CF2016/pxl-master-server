@@ -5,16 +5,16 @@ from pxl.models import UserModel
 from rest_framework.authtoken.models import Token
 
 
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_profile(sender, instance, **kwargs):
-#     if kwargs.get('created', False):
-#         profile = UserModel(user=instance)
-#         profile.save()
-#
-#
-# @receiver(pre_delete, sender=settings.AUTH_USER_MODEL)
-# def delete_profile(sender, instance, **kwargs):
-#     instance.profile.delete()
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_profile(sender, instance, **kwargs):
+    if kwargs.get('created', False):
+        profile = UserModel(user=instance)
+        profile.save()
+
+
+@receiver(pre_delete, sender=settings.AUTH_USER_MODEL)
+def delete_profile(sender, instance, **kwargs):
+    instance.profile.delete()
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

@@ -8,6 +8,9 @@ urlpatterns = [
     url(r'^board_data_2/$', views.BoardList_2.as_view()),
     url(r'^board_data_3/$', views.BoardList_3.as_view()),
     url(r'^authentication/$', views.LoginView.as_view()),
+    url(r'^register/$', views.LoginView.as_view()),
+    url(r'^login/$', views.LoginView.as_view()),
+    url(r'^registration/$', views.RegisterView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

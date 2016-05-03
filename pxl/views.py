@@ -8,14 +8,30 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
 
+class RegisterView(APIView):
+    # permission_classes = ('AllowAny')
+
+    def post(self, request):
+        import pdb; pdb.set_trace()
+        User.objects.create(
+            username=request.username,
+            password=request.password,
+            email=request.email,
+        )
+        content = {
+            'token': User.objects.get(username=request.username)
+        }
+        return Response(content)
+
+
 class LoginView(APIView):
     """Registration and login view."""
 
     def get(self, request, format=None):
         """Return user and authorization to front end."""
         content = {
-            'user': unicode(request.user),
-            'auth': unicode(request.auth)
+            'user': request.user,
+            'auth': request.auth
         }
         return Response(content)
 
@@ -27,8 +43,8 @@ class LoginView(APIView):
         new_user.email = request.email
         new_user.save()
         content = {
-            'user': unicode(request.user),
-            'auth': unicode(request.auth)
+            'user': request.user,
+            'auth': request.auth,
         }
         return Response(content)
 
