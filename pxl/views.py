@@ -8,20 +8,8 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
 
-class RegisterView(APIView):
-    # permission_classes = ('AllowAny')
-
-    def post(self, request):
-        import pdb; pdb.set_trace()
-        User.objects.create(
-            username=request.username,
-            password=request.password,
-            email=request.email,
-        )
-        content = {
-            'token': User.objects.get(username=request.username)
-        }
-        return Response(content)
+class RegisterView(generics.CreateAPIView):
+    serializer_class = serializers.UserSerializer1
 
 
 class LoginView(APIView):
@@ -32,19 +20,6 @@ class LoginView(APIView):
         content = {
             'user': request.user,
             'auth': request.auth
-        }
-        return Response(content)
-
-    def post(self, request, format=None):
-        """Set username and password to database."""
-        new_user = User
-        new_user.username = request.username
-        new_user.password = request.password
-        new_user.email = request.email
-        new_user.save()
-        content = {
-            'user': request.user,
-            'auth': request.auth,
         }
         return Response(content)
 
