@@ -7,22 +7,30 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from django.http import HttpResponse
 
 
 class RegisterView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = serializers.UserSerializer1
 
 
 class LoginView(APIView):
     """Registration and login view."""
+    permission_classes = (AllowAny,)
+    serializer_class = serializers.UserLoginSerializer
 
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         """Return user and authorization to front end."""
         import pdb; pdb.set_trace()
-        tok = Token.objects.get(user=request.user)
-        content = {
-            'token': str(tok)
-        }
+        user = User.objects.get(username=request.data['username'])
+        if user.password == request.data['password']:
+            tok = Token.objects.get(user=user)
+            content = {
+                'token': str(tok)
+            }
+        else:
+            return HttpResponse('Unauthorized', status=401)
         return Response(content)
 
 
