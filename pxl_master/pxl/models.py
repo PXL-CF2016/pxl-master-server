@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.utils.encoding import python_2_unicode_compatible
 
 
 class PXLBoardModel_1(models.Model):
