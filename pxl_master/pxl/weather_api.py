@@ -23,6 +23,3 @@ def weather_api_json():
         'temperature': temp,
         'weather': weather}
     return json_format
-
-if __name__ == "__main__":
-    weather_api_json()
