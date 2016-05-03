@@ -2,10 +2,11 @@ from pxl import models
 from pxl import serializers
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 
 class RegisterView(generics.CreateAPIView):
@@ -17,9 +18,10 @@ class LoginView(APIView):
 
     def get(self, request, format=None):
         """Return user and authorization to front end."""
+        import pdb; pdb.set_trace()
+        tok = Token.objects.get(user=request.user)
         content = {
-            'user': request.user,
-            'auth': request.auth
+            'token': str(tok)
         }
         return Response(content)
 
