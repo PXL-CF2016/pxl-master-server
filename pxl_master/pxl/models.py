@@ -33,7 +33,6 @@ class PXLBoardModel_3(models.Model):
     weather = models.BooleanField()
 
 
-@python_2_unicode_compatible
 class UserModel(models.Model):
     """PXL User model."""
 
