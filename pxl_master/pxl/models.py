@@ -37,9 +37,11 @@ class PXLBoardModel_3(models.Model):
 class UserModel(models.Model):
     """PXL User model."""
 
-    username = models.CharField(max_length=255)
-    email = models.EmailField()
-    password = models.CharField(max_length=255)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
     pxlboard_1 = models.OneToOneField(PXLBoardModel_1)
     pxlboard_2 = models.OneToOneField(PXLBoardModel_2)
     pxlboard_3 = models.OneToOneField(PXLBoardModel_3)
