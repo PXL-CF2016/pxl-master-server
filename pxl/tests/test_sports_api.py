@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from pxl_master.pxl import sports_apis
+from pxl import sports_apis
 from mock_sports_dat import NFL_RESPONSE, PARSED_NFL_RESPONSE, MOCK_NFL_DATA, NFL_JSON, MLB_RESPONSE, MLB_JSON, NHL_RESPONSE, NHL_JSON
 from mock import patch
 
@@ -23,7 +23,7 @@ class SportsApiTests(TestCase):
         nfl_parsed = sports_apis.parse_nfl_content(strng)
         self.assertEqual(nfl_parsed, 'test, nfl ,response')
 
-    @patch('pxl_master.pxl.sports_apis.requests')
+    @patch('pxl.sports_apis.requests')
     def test_get_nfl_data(self, requests):
         """Test get nfl data function."""
         mock_method = requests.get().content.decode
@@ -31,7 +31,7 @@ class SportsApiTests(TestCase):
         result = sports_apis.get_nfl_data()
         self.assertEqual(result, MOCK_NFL_DATA)
 
-    @patch('pxl_master.pxl.sports_apis.get_nfl_data')
+    @patch('pxl.sports_apis.get_nfl_data')
     def test_form_nfl_json(self, get_nfl_data):
         """Test get nfl data function."""
         mock_method = get_nfl_data
@@ -39,7 +39,7 @@ class SportsApiTests(TestCase):
         result = sports_apis.form_nfl_json()
         self.assertJSONEqual(result, NFL_JSON)
 
-    @patch('pxl_master.pxl.sports_apis.requests')
+    @patch('pxl.sports_apis.requests')
     def test_get_mlb_data(self, requests):
         """Test get mlb data function."""
         mock_method = requests.get().content.decode
@@ -47,7 +47,7 @@ class SportsApiTests(TestCase):
         result = sports_apis.get_mlb_data()
         self.assertEqual(result, MLB_RESPONSE)
 
-    @patch('pxl_master.pxl.sports_apis.get_mlb_data')
+    @patch('pxl.sports_apis.get_mlb_data')
     def test_form_mlb_json(self, get_mlb_data):
         """Test form mlb json."""
         mock_method = get_mlb_data
@@ -55,7 +55,7 @@ class SportsApiTests(TestCase):
         result = sports_apis.form_mlb_json()
         self.assertJSONEqual(result, MLB_JSON)
 
-    @patch('pxl_master.pxl.sports_apis.requests')
+    @patch('pxl.sports_apis.requests')
     def test_get_nhl_data(self, requests):
         """Test get nhl data function."""
         mock_method = requests.get().content.decode
@@ -63,7 +63,7 @@ class SportsApiTests(TestCase):
         result = sports_apis.get_nhl_data()
         self.assertEqual(result, NHL_RESPONSE[15:-1])
 
-    @patch('pxl_master.pxl.sports_apis.get_nhl_data')
+    @patch('pxl.sports_apis.get_nhl_data')
     def test_form_nhl_json(self, get_nhl_data):
         """Test form nhl json."""
         mock_method = get_nhl_data

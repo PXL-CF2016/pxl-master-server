@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
-from pxl_master.pxl.models import UserModel, PXLBoardModel_1
-from pxl_master.pxl.models import PXLBoardModel_2, PXLBoardModel_3
+from pxl.models import UserModel, PXLBoardModel_1
+from pxl.models import PXLBoardModel_2, PXLBoardModel_3
 from django.contrib.auth.models import User
 import factory
 
