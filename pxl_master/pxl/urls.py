@@ -1,7 +1,12 @@
 from django.conf.urls import url
-from pxl import views
+from rest_framework.urlpatterns import format_suffix_patterns
+from . import views
 
 urlpatterns = [
-    url(r'^snippets/$', views.snippet_list),
-    url(r'^snippets/(?P<pk>[0-9]+)/$', views.snippet_detail),
+    url(r'^user_data/$', views.UserList.as_view()),
+    url(r'^board_data_1/$', views.BoardList_1.as_view()),
+    url(r'^board_data_2/$', views.BoardList_2.as_view()),
+    url(r'^board_data_3/$', views.BoardList_3.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
