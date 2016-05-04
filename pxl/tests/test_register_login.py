@@ -9,7 +9,13 @@ from pxl.models import UserModel
 
 class TestRegistration(APITestCase):
 
+    def test_registration_view_no_get(self):
+        """Expect get request not allowed for registration view."""
+        response = self.client.get('/api/v1.0/registration/')
+        self.assertEqual(response.status_code, 405)
+
     def test_create_account_201(self):
+        """Test that user can register and user is added to the database."""
         response = self.client.post('/api/v1.0/registration/',
                                     {'email': 'test@test.com',
                                      'username': 'tester',
@@ -19,6 +25,7 @@ class TestRegistration(APITestCase):
         self.assertEqual(UserModel.objects.count(), 1)
 
     def test_create_account_400(self):
+        """Test that registration form is incomplete and user is not saved."""
         response = self.client.post('/api/v1.0/registration/',
                                     {'email': 'test@test.com',
                                      'username': 'blah',
@@ -29,15 +36,12 @@ class TestRegistration(APITestCase):
 
 class TestLogin(APITestCase):
 
-    def test_invalid_user_login(self):
-        self.cl = APIClient()
-        response = self.cl.login(username="bleepblorp", password="secretsecret")
-        self.assertEqual(response, False)
+    def login_view_get(self):
+        """ Expect 200 status code for login view."""
+        response = self.client.get('/api/v1.0/login/')
+        self.assertEqual(response.status_code, 200)
 
-    def test_valid_user_login(self):
-        self.cl = APIClient()
-        user = UserFactory.create()
-        user.save()
-        response = self.cl.login(username=user.username, password=user.password)
-        import pdb; pdb.set_trace()
-        self.assertEqual(response, True)
+    def test_invalid_user_login(self):
+        """Expect invalid user login failure."""
+        logged_in = self.client.login(username="bleepblorp", password="secretsecret")
+        self.assertEqual(logged_in, False)
