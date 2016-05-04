@@ -13,28 +13,32 @@ RESP_DATA = {
 
 class TestWeather(TestCase):
 
-    @patch('pxl.weather_api')
+    @patch('pxl.weather_api.weather_api_call')
     def test_weather_api_output_type(self, weather_api_call):
-        mocked_api = weather_api.weather_api_call()
-        self.assertEqual(type(TEST_OUTPUT), type(mocked_api))
+        mocked_api = weather_api_call()
+        mocked_api.return_value = TEST_OUTPUT
+        import pdb; pdb.set_trace();
+        pass
 
-    @patch('pxl.weather_api')
+
+
+    @patch('pxl.weather_api.weather_api_call')
     def test_weather_api_output_length(self, weather_api_call):
-        mocked_api = weather_api.weather_api_call()
+        mocked_api = weather_api_call()
         self.assertEqual(len(TEST_OUTPUT), len(mocked_api))
 
-    @patch('pxl.weather_api')
+    @patch('pxl.weather_api.weather_api_call')
     def test_weather_api_expected_location(self, weather_api_call):
-        mocked_api = weather_api.weather_api_call()
+        mocked_api = weather_api_call()
         location = mocked_api['current_observation']['display_location']['full']
         self.assertEqual(location, 'Seattle, WA')
 
-    @patch('pxl.weather_api')
+    @patch('pxl.weather_api.weather_api_json')
     def test_weather_api_response_length(self, weather_api_json):
-        mocked_json = weather_api.weather_api_json()
+        mocked_json = weather_api_json()
         self.assertEqual(len(RESP_DATA), len(mocked_json))
 
-    @patch('pxl.weather_api')
+    @patch('pxl.weather_api.weather_api_json')
     def test_weather_api_response_type(self, weather_api_json):
         mocked_json = weather_api.weather_api_json()
         self.assertEqual(type(RESP_DATA), type(mocked_json))
