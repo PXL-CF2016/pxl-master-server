@@ -25,5 +25,4 @@ class UserModelTest(TestCase):
 
     def test_user_profile(self):
         """Test if user has a profile."""
-        import pdb; pdb.set_trace()
         self.assertIsInstance(self.user.profile, UserModel)

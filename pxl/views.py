@@ -22,7 +22,6 @@ class LoginView(APIView):
 
     def post(self, request, format=None):
         """Return user and authorization to front end."""
-        import pdb; pdb.set_trace()
         user = User.objects.get(username=request.data['username'])
         if user.password == request.data['password']:
             tok = Token.objects.get(user=user)
