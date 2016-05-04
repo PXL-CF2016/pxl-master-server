@@ -35,19 +35,22 @@ class LoginView(APIView):
 
 
 class BoardList(generics.ListCreateAPIView, generics.UpdateAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = serializers.BoardSerializer
+    queryset = models.PXLBoardModel.objects.all()
 
-    def get_queryset(self):
-        token = Token.objects.get(key=self.request.data['token'])
-        user = User.objects.get(user=token.user)
-        return models.PXLBoardModel.objects.get(owner=user)
-
-    def perform_create(self, serializer):
-        token = Token.objects.get(key=self.request.data['token'])
-        user = User.objects.get(user=token.user)
-        serializer.save(owner=user)
-
-    def perform_update(self, serializer):
-        token = Token.objects.get(key=self.request.data['token'])
-        user = User.objects.get(user=token.user)
-        serializer.save(owner=user)
+    # def get_queryset(self):
+    #     import pdb; pdb.set_trace()
+    #     token = Token.objects.get(key=self.request.data['token'])
+    #     user = User.objects.get(username=token.user.username)
+    #     return models.PXLBoardModel.objects.get(owner=user)
+    #
+    # def perform_create(self, serializer):
+    #     token = Token.objects.get(key=self.request.data['token'])
+    #     user = User.objects.get(username=token.user.username)
+    #     serializer.save(owner=user)
+    #
+    # def perform_update(self, serializer):
+    #     token = Token.objects.get(key=self.request.data['token'])
+    #     user = User.objects.get(username=token.user.username)
+    #     serializer.save(owner=user)

@@ -19,17 +19,6 @@ class UserLoginSerializer(serializers.ModelSerializer):
                   'password',
                   )
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.UserModel
-        fields = ('username',
-                  'email',
-                  'password',
-                  'pxlboard_1',
-                  'pxlboard_2',
-                  'pxlboard_3')
-
-
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PXLBoardModel
