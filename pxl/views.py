@@ -1,8 +1,9 @@
 from pxl import models
 from pxl import serializers
 from rest_framework import generics
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
@@ -22,7 +23,6 @@ class LoginView(APIView):
 
     def post(self, request, format=None):
         """Return user and authorization to front end."""
-        import pdb; pdb.set_trace()
         user = User.objects.get(username=request.data['username'])
         if user.password == request.data['password']:
             tok = Token.objects.get(user=user)
@@ -34,21 +34,20 @@ class LoginView(APIView):
         return Response(content)
 
 
-class UserList(generics.ListCreateAPIView, generics.UpdateAPIView):
-    serializer_class = serializers.UserSerializer
-    queryset = models.UserModel.objects.all()
+class BoardList(generics.ListCreateAPIView, generics.UpdateAPIView):
+    serializer_class = serializers.BoardSerializer
 
+    def get_queryset(self):
+        token = Token.objects.get(key=self.request.data['token'])
+        user = User.objects.get(user=token.user)
+        return models.PXLBoardModel.objects.get(owner=user)
 
-class BoardList_1(generics.ListCreateAPIView, generics.UpdateAPIView):
-    serializer_class = serializers.BoardSerializer_1
-    queryset = models.UserModel.objects.all()
+    def perform_create(self, serializer):
+        token = Token.objects.get(key=self.request.data['token'])
+        user = User.objects.get(user=token.user)
+        serializer.save(owner=user)
 
-
-class BoardList_2(generics.ListCreateAPIView, generics.UpdateAPIView):
-    serializer_class = serializers.BoardSerializer_2
-    queryset = models.UserModel.objects.all()
-
-
-class BoardList_3(generics.ListCreateAPIView, generics.UpdateAPIView):
-    serializer_class = serializers.BoardSerializer_3
-    queryset = models.UserModel.objects.all()
+    def perform_update(self, serializer):
+        token = Token.objects.get(key=self.request.data['token'])
+        user = User.objects.get(user=token.user)
+        serializer.save(owner=user)

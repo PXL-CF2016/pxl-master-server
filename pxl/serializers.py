@@ -30,31 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
                   'pxlboard_3')
 
 
-class BoardSerializer_1(serializers.ModelSerializer):
+class BoardSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.PXLBoardModel_1
+        model = models.PXLBoardModel
         fields = ('mlb',
                   'nfl',
                   'nhl',
                   'headlines',
-                  'weather')
-
-
-class BoardSerializer_2(serializers.ModelSerializer):
-    class Meta:
-        model = models.PXLBoardModel_2
-        fields = ('mlb',
-                  'nfl',
-                  'nhl',
-                  'headlines',
-                  'weather')
-
-
-class BoardSerializer_3(serializers.ModelSerializer):
-    class Meta:
-        model = models.PXLBoardModel_3
-        fields = ('mlb',
-                  'nfl',
-                  'nhl',
-                  'headlines',
-                  'weather')
+                  'weather',
+                  'owner',)
