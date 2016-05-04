@@ -18,8 +18,8 @@
 //npm deps
 
 //app deps
-const thingShadow = require('..').thingShadow;
-const isUndefined = require('../common/lib/is-undefined');
+const thingShadow = require('.').thingShadow;
+const isUndefined = require('./common/lib/is-undefined');
 const cmdLineProcess = require('./lib/cmdline');
 
 var exec = require('child_process').exec;
