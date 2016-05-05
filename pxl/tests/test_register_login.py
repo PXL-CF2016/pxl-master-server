@@ -5,7 +5,6 @@ from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
 from mock import patch
-from pxl.views import return_credentials
 
 class TestRegistration(APITestCase):
     """Test Class Registration API View."""
@@ -24,35 +23,53 @@ class TestRegistration(APITestCase):
         response = client.post('/api/v1.0/registration/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), 1)
-#
-#     def test_create_account_400(self):
-#         """Test that registration form is incomplete and user is not saved."""
-#         response = self.client.post('/api/v1.0/registration/',
-#                                     {'email': 'test@test.com',
-#                                      'username': 'blah',
-#                                      'password': '',
-#                                      }, format='json')
-#         self.assertEqual(response.status_code, 400)
-#         self.assertEqual(User.objects.count(), 0)
-#
-# class TestLogin(APITestCase):
-#     """Test Class for Login API View."""
-#
-#     def setUp(self):
-#         self.superuser = User.objects.create_superuser('bob', 'bob@bob.com', 'secretsecret')
-#
-#     def login_view_get(self):
-#         """ Expect 200 status code for login view."""
-#         response = self.client.get('/api/v1.0/login/')
-#         self.assertEqual(response.status_code, 200)
-#
-#     def test_valid_login(self):
-#         """Expect valid user login."""
-#         logged_in = self.client.post('/api/v1.0/login/', {'username': 'bob', 'password': 'secretsecret'}, format='json')
-#         self.assertEqual(logged_in.status_code, 200)
-#
-#     def test_invalid_login(self):
-#         """Expect invalid login failure."""
-#         logged_in = self.client.post('/api/v1.0/login/', {'username': 'bob', 'password': ''}, format='json')
-#         pass
-#         # to do: get this view passing
+
+    # @patch('pxl.views.return_credentials')
+    # def test_create_account_400(self, return_credentials):
+    #     """Test that registration form is incomplete and user is not saved."""
+    #     client = APIClient()
+    #     mocked_function = return_credentials
+    #     mocked_function.return_value = {'username': 'bldkfjsdlkfj', 'password': ''}
+    #     response = client.post('/api/v1.0/registration/')
+    #     self.assertEqual(response.status_code, 400)
+    #     self.assertEqual(User.objects.count(), 0)
+    #     # this doesn't work rignt now
+
+
+class TestLogin(APITestCase):
+    """Test Class for Login API View."""
+
+    def setUp(self):
+        self.superuser = User.objects.create_superuser('bob', 'bob@bob.com', 'secretsecret')
+
+    @patch('pxl.views.return_credentials')
+    def test_valid_login(self, return_credentials):
+        """Expect valid user login."""
+        mocked_function = return_credentials
+        mocked_function.return_value = {'username': 'bob', 'password': 'secretsecret'}
+        logged_in = self.client.post('/api/v1.0/login/')
+        self.assertEqual(logged_in.status_code, 200)
+
+    @patch('pxl.views.return_credentials')
+    def test_invalid_password(self, return_credentials):
+        """Expect login failure if invalid password."""
+        mocked_function = return_credentials
+        mocked_function.return_value = {'username': 'bob', 'password': 'l33t49ck3r'}
+        logged_in = self.client.post('/api/v1.0/login/')
+        self.assertEqual(logged_in.status_code, 401)
+
+    @patch('pxl.views.return_credentials')
+    def test_no_password(self, return_credentials):
+        """Expect login failure if password is empty."""
+        mocked_function = return_credentials
+        mocked_function.return_value = {'username': 'bob', 'password': ''}
+        logged_in = self.client.post('/api/v1.0/login/')
+        self.assertEqual(logged_in.status_code, 401)
+
+    @patch('pxl.views.return_credentials')
+    def test_invalid_user(self, return_credentials):
+        """Expect login failure for invalid user."""
+        mocked_function = return_credentials
+        mocked_function.return_value = {'username': '48ck3r', 'password': 'l33t12345'}
+        logged_in = self.client.post('/api/v1.0/login/')
+        self.assertEqual(logged_in.status_code, 401)
