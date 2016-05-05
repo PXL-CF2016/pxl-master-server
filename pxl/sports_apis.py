@@ -45,6 +45,7 @@ def form_nfl_dict():
     return nfl_json
 
 def form_nfl_string():
+    """Return string for aws iot."""
     nfl_dict = form_nfl_dict()
     nfl_string = 'NFL: '
     for game in nfl_dict['games']:
@@ -117,6 +118,7 @@ def form_mlb_dict():
     return mlb_json
 
 def form_mlb_string():
+    """Return string for aws iot."""
     mlb_dict = form_mlb_dict()
     mlb_string = 'MLB: '
     for game in mlb_dict['games']:
@@ -155,6 +157,7 @@ def form_nhl_dict():
     return nhl_json
 
 def form_nhl_string():
+    """Return string for aws iot."""
     nhl_dict = form_nhl_dict()
     nhl_string = 'NHL: '
     for game in nhl_dict['games']:
