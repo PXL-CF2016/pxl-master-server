@@ -113,7 +113,7 @@ def form_mlb_json():
 def get_nhl_data():
     """Get response from NHL endpoint."""
     nhl_data = requests.get(NHL_ENDPOINT)
-    return nhl_data.content.decode()
+    return nhl_data.content.decode()[15:-1]
 
 
 def form_nhl_json():
