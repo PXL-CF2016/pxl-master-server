@@ -44,6 +44,13 @@ def form_nfl_dict():
         nfl_json['games'].append(game_dict)
     return nfl_json
 
+def form_nfl_string():
+    nfl_dict = form_nfl_dict()
+    nfl_string = 'NFL: '
+    for game in nfl_dict['games']:
+        nfl_data = game['home'] + ' ' + game['home_score'] + ' ' + game['away'] + ' ' + game['away_score'] + ' ' + game['day'] + ' ' + game['time'] + ' | '
+        nfl_string += nfl_data
+    return nfl_string
 
 def get_mlb_data():
     """Generate response from MLB score endpoint."""
@@ -109,6 +116,14 @@ def form_mlb_dict():
         mlb_json['games'].append(game_dict)
     return mlb_json
 
+def form_mlb_string():
+    mlb_dict = form_mlb_dict()
+    mlb_string = 'MLB: '
+    for game in mlb_dict['games']:
+        mlb_data = game['home'] + ' ' + game['home_score'] + ' ' + game['away'] + ' ' + game['away_score'] + ' ' + game['time'] + ' | '
+        mlb_string += mlb_data
+    return mlb_string
+
 
 def get_nhl_data():
     """Get response from NHL endpoint."""
@@ -138,3 +153,11 @@ def form_nhl_dict():
         }
         nhl_json['games'].append(game_dict)
     return nhl_json
+
+def form_nhl_string():
+    nhl_dict = form_nhl_dict()
+    nhl_string = 'NHL: '
+    for game in nhl_dict['games']:
+        nhl_data = game['home'] + ' ' + game['home_score'] + ' ' + game['away'] + ' ' + game['away_score'] + ' ' + game['date'] + ' ' + game['time'] + ' | '
+        nhl_string += nhl_data
+    return nhl_string
