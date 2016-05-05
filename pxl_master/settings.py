@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&6_#1&951zc&9*$9br_#jezu2%7s&7cx5^%w5@z8_@aq#5!epe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -84,6 +84,7 @@ WSGI_APPLICATION = 'pxl_master.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
