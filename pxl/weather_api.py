@@ -18,8 +18,8 @@ def weather_api_json():
     temp = parsed_json['current_observation']['temperature_string']
     location = parsed_json['current_observation']['display_location']['full']
     weather = parsed_json['current_observation']['icon']
-    json_format = {
+    dictionary_format = {
         'location': location,
         'temperature': temp,
         'weather': weather}
-    return json_format
+    return dictionary_format
