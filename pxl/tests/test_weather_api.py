@@ -6,9 +6,9 @@ from weather_test_data import TEST_OUTPUT
 import requests
 import json
 
-RESP_DATA = '{"location": "Seattle, WA", \
+RESP_DATA = {"location": "Seattle, WA", \
               "weather": "partlycloudy", \
-              "temperature": "76.5 F (24.7 C)"}'
+              "temperature": "76.5 F (24.7 C)"}
 
 
 class TestWeather(TestCase):
@@ -37,10 +37,10 @@ class TestWeather(TestCase):
         response = weather_api_call()
         location = response['current_observation']['display_location']['full']
         self.assertEqual(location, 'Seattle, WA')
-    
+
     @patch('pxl.weather_api.requests')
     def test_weather_api_response_type(self, requests):
-        """Test if the response is JSON."""
+        """Test if the response is a Dictionary."""
         mocked_method = requests.get().json
         mocked_method.return_value = TEST_OUTPUT
         response = weather_api_json()
@@ -52,10 +52,9 @@ class TestWeather(TestCase):
         mocked_method = requests.get().json
         mocked_method.return_value = TEST_OUTPUT
         response = weather_api_json()
-        data = json.loads(response)
-        self.assertTrue("location" in data)
-        self.assertTrue("temperature" in data)
-        self.assertTrue("weather" in data)
+        self.assertTrue("location" in response)
+        self.assertTrue("temperature" in response)
+        self.assertTrue("weather" in response)
 
     @patch('pxl.weather_api.requests')
     def test_weather_api_response_wrong_keys(self, requests):
@@ -63,5 +62,4 @@ class TestWeather(TestCase):
         mocked_method = requests.get().json
         mocked_method.return_value = TEST_OUTPUT
         response = weather_api_json()
-        data = json.loads(response)
-        self.assertFalse("slurpee" in data)
+        self.assertFalse("slurpee" in response)
