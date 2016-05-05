@@ -22,4 +22,8 @@ def weather_api_json():
         'location': location,
         'temperature': temp,
         'weather': weather}
-    return json_format
+    return json.dumps(json_format)
+
+
+    if __name__ == '__main__':
+        weather_api_json()
