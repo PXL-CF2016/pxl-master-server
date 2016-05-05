@@ -16,7 +16,7 @@ def get_headline_data():
     return headline_data.json()['list']['story']
 
 
-def form_headline_json():
+def form_headline_dict():
     """Form a JSON response for the NPR headline data."""
     headlines = get_headline_data()
     headline_json = {'headlines': []}
@@ -26,4 +26,4 @@ def form_headline_json():
             'title': title
         }
         headline_json['headlines'].append(headline_dict)
-    return json.dumps(headline_json)
+    return headline_json
