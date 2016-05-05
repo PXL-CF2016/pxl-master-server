@@ -23,6 +23,9 @@ const isUndefined = require('./common/lib/is-undefined');
 const cmdLineProcess = require('./lib/cmdline');
 
 var exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
+var spawnSync = require('child_process').spawnSync;
+var child;
 //begin module
 
 function processTest(args) {
@@ -64,29 +67,67 @@ function processTest(args) {
       });
 
    thingShadows
+       .on('connect', function() {
+          // Check for child state
+          console.log("Kill check....");
+          if (child){
+              console.log("Killing message instance.");
+              child.kill();
+          }
+
+           // Run the display with the new mesall-11-doctors.sage.ppm
+          console.log('Calling led-matrix with all-11-doctors.ppm');
+          child =  exec('sudo matrix/led-matrix -r 32 -c 4 -D 1 matirx/all-11-doctors.ppm');
+
+       });
+
+   thingShadows
       .on('delta', function(thingName, stateObject) {
          console.log('received delta on ' + thingName + ': ' +
             JSON.stringify(stateObject));
+          // after you get the updated state call your command line function(s)
+          // to render the text on the RGB LED board
 
-         // after you get the updated state call your command line function(s)
-         // to render the text on the RGB LED board
+          // Check for child state
+          console.log("Kill check....");
+          if (child){
+              console.log("Killing message instance.");
+              child.kill();
+          }
 
-         // Create the message.ppm
-         exec("python text_to_ppm.py \'" + stateObject.message_1 + "\'", function (error, out, stderr) {
-            console.log(out);
-         });
+          console.log('Calling text_to_ppm with: \"' + stateObject.state.message_1 + '\"');
+          execSync('python matrix/text_to_ppm.py \"' + stateObject.state.message_1 + '\"');
 
-         // Run the display with the new message.ppm
-         exec("sudo ./led-matrix -r 32 -c 4 -t 60 -D 1 message.ppm", function (error, out, stderr) {
-            console.log(out);
-         });
+          // Run the display with the new message.ppm
+          console.log('Calling led-matrix with message.ppm');
+          child =  exec('sudo matrix/led-matrix -r 32 -c 4 -D 1 matrix/message.ppm');
 
 
-         thingShadows.update(thingName, {
-            state: {
-               reported: stateObject.state
-            }
-         });
+          // // Create the message.ppm
+          // console.log('Calling text_to_ppm with: \"' + stateObject.state.message_1 + '\"');
+          // spawnSync('python matrix/text_to_ppm.py \"' + stateObject.state.message_1 + '\"', function (error, out, stderr) {
+          //    console.log(out);
+          // });
+          //
+          // execSync('python matrix/text_to_ppm.py \"' + stateObject.state.message_1 + '\"');
+          //
+          // // Kill node and run this -- Run the display with the new message.ppm
+          // console.log('Calling node aws-iot-device-sdk-js/pxl-echo.js')
+          // execSync('node aws-iot-device-sdk-js/pxl-echo.js --thing-name PXL-CF2016 -f ~/.aws/certs');
+          //
+          // // Run the display with the new message.ppm
+          // console.log('Calling led-matrix with message.ppm')
+          // exec('sudo matrix/led-matrix -r 32 -c 4 -D 1 message.ppm', function (error, out, stderr) {
+          //   console.log(out);
+          // });
+          //
+          // execSync('sudo matrix/led-matrix -r 32 -c 4 -D 1 message.ppm')
+
+          // thingShadows.update(thingName, {
+          //    state: {
+          //       reported: stateObject.state
+          //    }
+          // });
       });
 
    thingShadows
