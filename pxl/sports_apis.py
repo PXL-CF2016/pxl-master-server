@@ -22,7 +22,7 @@ def get_nfl_data():
     return nfl_json
 
 
-def form_nfl_json():
+def form_nfl_dict():
     """Form NFL JSON response."""
     nfl_games = get_nfl_data()['ss']
     nfl_json = {'games': []}
@@ -42,8 +42,16 @@ def form_nfl_json():
             'away_score': away_score
         }
         nfl_json['games'].append(game_dict)
-    return json.dumps(nfl_json)
+    return nfl_json
 
+def form_nfl_string():
+    """Return string for aws iot."""
+    nfl_dict = form_nfl_dict()
+    nfl_string = 'NFL: '
+    for game in nfl_dict['games']:
+        nfl_data = game['home'] + ' ' + game['home_score'] + ' ' + game['away'] + ' ' + game['away_score'] + ' ' + game['day'] + ' ' + game['time'] + ' | '
+        nfl_string += nfl_data
+    return nfl_string
 
 def get_mlb_data():
     """Generate response from MLB score endpoint."""
@@ -66,7 +74,7 @@ def get_mlb_data():
     return requests.get(mlb_endpoint).content.decode()
 
 
-def form_mlb_json():
+def form_mlb_dict():
     """Form MLB JSON response."""
     mlb_data = get_mlb_data()
     mlb_games = json.loads(mlb_data)['data']['games']['game']
@@ -107,16 +115,25 @@ def form_mlb_json():
             'at_bat': at_bat,
         }
         mlb_json['games'].append(game_dict)
-    return json.dumps(mlb_json)
+    return mlb_json
+
+def form_mlb_string():
+    """Return string for aws iot."""
+    mlb_dict = form_mlb_dict()
+    mlb_string = 'MLB: '
+    for game in mlb_dict['games']:
+        mlb_data = game['home'] + ' ' + game['home_score'] + ' ' + game['away'] + ' ' + game['away_score'] + ' ' + game['time'] + ' | '
+        mlb_string += mlb_data
+    return mlb_string
 
 
 def get_nhl_data():
     """Get response from NHL endpoint."""
     nhl_data = requests.get(NHL_ENDPOINT)
-    return nhl_data.content.decode()
+    return nhl_data.content.decode()[15:-1]
 
 
-def form_nhl_json():
+def form_nhl_dict():
     """Form NHL JSON response."""
     nhl_games = json.loads(get_nhl_data())['games']
     nhl_json = {'games': []}
@@ -137,4 +154,13 @@ def form_nhl_json():
             'date': date
         }
         nhl_json['games'].append(game_dict)
-    return json.dumps(nhl_json)
+    return nhl_json
+
+def form_nhl_string():
+    """Return string for aws iot."""
+    nhl_dict = form_nhl_dict()
+    nhl_string = 'NHL: '
+    for game in nhl_dict['games']:
+        nhl_data = game['home'] + ' ' + game['home_score'] + ' ' + game['away'] + ' ' + game['away_score'] + ' ' + game['date'] + ' ' + game['time'] + ' | '
+        nhl_string += nhl_data
+    return nhl_string

@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.utils.six import text_type
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import parsers, renderers
+from pxl.board_iot import generate_display
 import base64
 import binascii
 
@@ -147,3 +148,5 @@ class BoardList(APIView):
                 weather=params['weather'])
             newinstance.save()
             return Response({'token': token.key})
+        finally:
+            generate_display(params)
