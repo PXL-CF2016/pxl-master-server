@@ -88,9 +88,7 @@ WSGI_APPLICATION = 'pxl_master.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-ALLOWED_HOSTS = ['.us-west-2.compute.amazonaws.com',
-                 'localhost'
-                 ]
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
