@@ -10,7 +10,7 @@ response = client.update_thing_shadow(
     payload=b'{ \
     "state": { \
         "desired": { \
-            "message_1": "What happens when you put a bunch of text in here? - Temperature 68 degrees - Thursday May 5th 2016" \
+            "message_1": ",.?!@#$%^&*()_+   I could stare at that all day ~ David" \
             } \
         } \
     }'
