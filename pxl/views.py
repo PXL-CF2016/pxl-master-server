@@ -78,7 +78,6 @@ class LoginView(APIView):
 
     def post(self, request, *args, **kwargs):
         credentials = return_credentials(request)
-        import pdb; pdb.set_trace()
 
         user = authenticate(**credentials)
         if user is None:
@@ -95,34 +94,33 @@ class BoardList(APIView):
     permission_classes = ()
     serializer_class = serializers.BoardSerializer
 
-    def get(self, request, *args, **kwargs):
-        token = Token.objects.get(key=request.data['token'])
-        user = User.objects.get(username=token.user.username)
-        try:
-            board = models.PXLBoardModel.objects.get(owner=user)
-            params = {
-                'token': token.key,
-                'nfl': board.nfl,
-                'nhl': board.nhl,
-                'mlb': board.mlb,
-                'weather': board.weather,
-                'headlines': board.headlines}
-            return Response(params)
-        except:
-            params = {
-                'token': token.key,
-                'nfl': 'false',
-                'nhl': 'false',
-                'mlb': 'false',
-                'weather': 'false',
-                'headlines': 'false'}
-            return Response(params)
+    # def get(self, request, *args, **kwargs):
+    #     token = Token.objects.get(key=request.data['token'])
+    #     user = User.objects.get(username=token.user.username)
+    #     try:
+    #         board = models.PXLBoardModel.objects.get(owner=user)
+    #         params = {
+    #             'token': token.key,
+    #             'nfl': board.nfl,
+    #             'nhl': board.nhl,
+    #             'mlb': board.mlb,
+    #             'weather': board.weather,
+    #             'headlines': board.headlines}
+    #         return Response(params)
+    #     except:
+    #         params = {
+    #             'token': token.key,
+    #             'nfl': 'false',
+    #             'nhl': 'false',
+    #             'mlb': 'false',
+    #             'weather': 'false',
+    #             'headlines': 'false'}
+    #         return Response(params)
 
     def post(self, request, *args, **kwargs):
         token = Token.objects.get(key=request.data['token'])
         user = User.objects.get(username=token.user.username)
         params = request.data
-        params['owner'] = user
         params.pop('token')
         for key in params:
             if params[key] == 'false':
@@ -130,11 +128,22 @@ class BoardList(APIView):
         try:
             board_instance = models.PXLBoardModel.objects.get(owner=user)
             board_instance.delete()
-            board_instance = models.PXLBoardModel(**params)
+            board_instance = models.PXLBoardModel(
+                owner=user,
+                mlb=params['mlb'],
+                nhl=params['nhl'],
+                nfl=params['nfl'],
+                headlines=params['headlines'],
+                weather=params['weather'])
             board_instance.save()
-        except:
-            newinstance = models.PXLBoardModel(**params)
-            newinstance.save()
             return Response({'token': token.key})
-        finally:
+        except:
+            newinstance = models.PXLBoardModel(
+                owner=user,
+                mlb=params['mlb'],
+                nhl=params['nhl'],
+                nfl=params['nfl'],
+                headlines=params['headlines'],
+                weather=params['weather'])
+            newinstance.save()
             return Response({'token': token.key})
