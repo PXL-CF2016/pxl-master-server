@@ -129,7 +129,9 @@ class BoardList(APIView):
         params['headlines'] = request.data['headlines']
 
         for key in params:
-            if params[key] == 'false':
+            if params[key]:
+                params[key] = 'true'
+            else:
                 params[key] = ''
         try:
             board_instance = models.PXLBoardModel.objects.get(owner=user)
