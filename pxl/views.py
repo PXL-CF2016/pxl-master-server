@@ -91,25 +91,50 @@ class LoginView(APIView):
         return Response({'token': token.key})
 
 
-class BoardList(generics.ListCreateAPIView, generics.UpdateAPIView):
-    permission_classes = (AllowAny,)
+class BoardList(APIView):
+    permission_classes = ()
     serializer_class = serializers.BoardSerializer
-    # queryset = models.PXLBoardModel.objects.all()
 
-    def get_queryset(self):
-        import pdb; pdb.set_trace()
-        token = Token.objects.get(key=self.request.data['token'])
+    def get(self, request, *args, **kwargs):
+        token = Token.objects.get(key=request.data['token'])
         user = User.objects.get(username=token.user.username)
-        return models.PXLBoardModel.objects.get(owner=user)
+        try:
+            board = models.PXLBoardModel.objects.get(owner=user)
+            params = {
+                'token': token.key,
+                'nfl': board.nfl,
+                'nhl': board.nhl,
+                'mlb': board.mlb,
+                'weather': board.weather,
+                'headlines': board.headlines}
+            return Response(params)
+        except:
+            params = {
+                'token': token.key,
+                'nfl': 'false',
+                'nhl': 'false',
+                'mlb': 'false',
+                'weather': 'false',
+                'headlines': 'false'}
+            return Response(params)
 
-    def perform_create(self, serializer):
-        import pdb; pdb.set_trace()
-        token = Token.objects.get(key=self.request.data['token'])
+    def post(self, request, *args, **kwargs):
+        token = Token.objects.get(key=request.data['token'])
         user = User.objects.get(username=token.user.username)
-        serializer.save(owner=user)
-
-    def perform_update(self, serializer):
-        import pdb; pdb.set_trace()
-        token = Token.objects.get(key=self.request.data['token'])
-        user = User.objects.get(username=token.user.username)
-        serializer.save(owner=user)
+        params = request.data
+        params['owner'] = user
+        params.pop('token')
+        for key in params:
+            if params[key] == 'false':
+                params[key] = ''
+        try:
+            board_instance = models.PXLBoardModel.objects.get(owner=user)
+            board_instance.delete()
+            board_instance = models.PXLBoardModel(**params)
+            board_instance.save()
+        except:
+            newinstance = models.PXLBoardModel(**params)
+            newinstance.save()
+            return Response({'token': token.key})
+        finally:
+            return Response({'token': token.key})
