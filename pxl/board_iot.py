@@ -23,11 +23,11 @@ def generate_display(params):
             message_string += data_dict[key]
     boto_response(message_string)
 
-def boto_response(display):
-    part_1 = b'{ "state": { "desired": { "message_1": "'
-    display = display.encode('utf-8')
-    part_3 = b'" } } }'
-    final_message = ''.join([part_1, display, part_3])
+def boto_response(message):
+    part_1 = '{ "state": { "desired": { "message_1": "'
+    part_3 = '" } } }'
+    final_message = ''.join([part_1, message, part_3])
+    final_message = final_message.encode('utf-8')
     client = boto3.client('iot-data', region_name='us-west-2')
     response = client.update_thing_shadow(
         thingName='PXL-CF2016',
