@@ -32,11 +32,11 @@ class SportsApiTests(TestCase):
         self.assertEqual(result, MOCK_NFL_DATA)
 
     @patch('pxl.sports_apis.get_nfl_data')
-    def test_form_nfl_json(self, get_nfl_data):
+    def test_form_nfl_dict(self, get_nfl_data):
         """Test get nfl data function."""
         mock_method = get_nfl_data
         mock_method.return_value = MOCK_NFL_DATA
-        result = sports_apis.form_nfl_json()
+        result = sports_apis.form_nfl_dict()
         self.assertDictEqual(result, NFL_DICT)
 
     @patch('pxl.sports_apis.requests')
@@ -48,11 +48,11 @@ class SportsApiTests(TestCase):
         self.assertEqual(result, MLB_RESPONSE)
 
     @patch('pxl.sports_apis.get_mlb_data')
-    def test_form_mlb_json(self, get_mlb_data):
+    def test_form_mlb_dict(self, get_mlb_data):
         """Test form mlb json."""
         mock_method = get_mlb_data
         mock_method.return_value = MLB_RESPONSE
-        result = sports_apis.form_mlb_json()
+        result = sports_apis.form_mlb_dict()
         self.assertDictEqual(result, MLB_DICT)
 
     @patch('pxl.sports_apis.requests')
@@ -64,9 +64,9 @@ class SportsApiTests(TestCase):
         self.assertEqual(result, NHL_RESPONSE[15:-1])
 
     @patch('pxl.sports_apis.get_nhl_data')
-    def test_form_nhl_json(self, get_nhl_data):
+    def test_form_nhl_dict(self, get_nhl_data):
         """Test form nhl json."""
         mock_method = get_nhl_data
         mock_method.return_value = NHL_RESPONSE[15:-1]
-        result = sports_apis.form_nhl_json()
+        result = sports_apis.form_nhl_dict()
         self.assertDictEqual(result, NHL_DICT)

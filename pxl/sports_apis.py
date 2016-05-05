@@ -22,7 +22,7 @@ def get_nfl_data():
     return nfl_json
 
 
-def form_nfl_json():
+def form_nfl_dict():
     """Form NFL JSON response."""
     nfl_games = get_nfl_data()['ss']
     nfl_json = {'games': []}
@@ -66,7 +66,7 @@ def get_mlb_data():
     return requests.get(mlb_endpoint).content.decode()
 
 
-def form_mlb_json():
+def form_mlb_dict():
     """Form MLB JSON response."""
     mlb_data = get_mlb_data()
     mlb_games = json.loads(mlb_data)['data']['games']['game']
@@ -116,7 +116,7 @@ def get_nhl_data():
     return nhl_data.content.decode()[15:-1]
 
 
-def form_nhl_json():
+def form_nhl_dict():
     """Form NHL JSON response."""
     nhl_games = json.loads(get_nhl_data())['games']
     nhl_json = {'games': []}
