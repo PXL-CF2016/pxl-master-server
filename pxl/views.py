@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.utils.six import text_type
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import parsers, renderers
+from pxl.board_iot import generate_display
 import base64
 import binascii
 
@@ -120,10 +121,17 @@ class BoardList(APIView):
     def post(self, request, *args, **kwargs):
         token = Token.objects.get(key=request.data['token'])
         user = User.objects.get(username=token.user.username)
-        params = request.data
-        params.pop('token')
+        params = {}
+        params['mlb'] = request.data['mlb']
+        params['nfl'] = request.data['nfl']
+        params['nhl'] = request.data['nhl']
+        params['weather'] = request.data['weather']
+        params['headlines'] = request.data['headlines']
+
         for key in params:
-            if params[key] == 'false':
+            if params[key]:
+                params[key] = 'true'
+            else:
                 params[key] = ''
         try:
             board_instance = models.PXLBoardModel.objects.get(owner=user)
@@ -147,3 +155,5 @@ class BoardList(APIView):
                 weather=params['weather'])
             newinstance.save()
             return Response({'token': token.key})
+        finally:
+            generate_display(params)

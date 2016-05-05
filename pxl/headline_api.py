@@ -27,3 +27,12 @@ def form_headline_dict():
         }
         headline_json['headlines'].append(headline_dict)
     return headline_json
+
+def form_headline_string():
+    """Return string for aws iot."""
+    headline_dict = form_headline_dict()
+    headline_string = 'News: '
+    for headline in headline_dict['headlines']:
+        headline_data = headline['title'] + ' | '
+        headline_string += headline_data
+    return headline_string
