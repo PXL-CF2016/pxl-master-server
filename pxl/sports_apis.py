@@ -42,7 +42,7 @@ def form_nfl_json():
             'away_score': away_score
         }
         nfl_json['games'].append(game_dict)
-    return json.dumps(nfl_json)
+    return nfl_json
 
 
 def get_mlb_data():
@@ -107,7 +107,7 @@ def form_mlb_json():
             'at_bat': at_bat,
         }
         mlb_json['games'].append(game_dict)
-    return json.dumps(mlb_json)
+    return mlb_json
 
 
 def get_nhl_data():
@@ -137,4 +137,4 @@ def form_nhl_json():
             'date': date
         }
         nhl_json['games'].append(game_dict)
-    return json.dumps(nhl_json)
+    return nhl_json
