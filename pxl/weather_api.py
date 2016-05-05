@@ -25,6 +25,7 @@ def weather_api_dict():
     return dictionary_format
 
 def form_weather_string():
+    """Return string for aws iot."""
     weather_dict = weather_api_dict()
     weather_string = 'Weather: '
     weather_data = weather_dict['temperature'] + ' and ' + weather_dict['weather'] + ' in ' + weather_dict['location'] + ' | '
