@@ -10,7 +10,7 @@ response = client.update_thing_shadow(
     payload=b'{ \
     "state": { \
         "desired": { \
-            "message_1": "Hells Bells" \
+            "message_1": "My Name Is Joe" \
             } \
         } \
     }'
