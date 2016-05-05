@@ -1,7 +1,7 @@
 # coding=utf-8
 from mock import patch
 from django.test import TestCase
-from pxl.weather_api import weather_api_call, weather_api_json
+from pxl.weather_api import weather_api_call, weather_api_dict
 from weather_test_data import TEST_OUTPUT
 import requests
 import json
@@ -43,7 +43,7 @@ class TestWeather(TestCase):
         """Test if the response is a Dictionary."""
         mocked_method = requests.get().json
         mocked_method.return_value = TEST_OUTPUT
-        response = weather_api_json()
+        response = weather_api_dict()
         self.assertEqual(type(response), type(RESP_DATA))
 
     @patch('pxl.weather_api.requests')
@@ -51,7 +51,7 @@ class TestWeather(TestCase):
         """Ensure keys in dict are the expected data fields."""
         mocked_method = requests.get().json
         mocked_method.return_value = TEST_OUTPUT
-        response = weather_api_json()
+        response = weather_api_dict()
         self.assertTrue("location" in response)
         self.assertTrue("temperature" in response)
         self.assertTrue("weather" in response)
@@ -61,5 +61,5 @@ class TestWeather(TestCase):
         """Test improper key is not in response."""
         mocked_method = requests.get().json
         mocked_method.return_value = TEST_OUTPUT
-        response = weather_api_json()
+        response = weather_api_dict()
         self.assertFalse("slurpee" in response)
