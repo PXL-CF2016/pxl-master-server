@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+-*- coding:utf-8 -*-
 from mock import patch
 from django.test import TestCase
 from pxl import weather_api
