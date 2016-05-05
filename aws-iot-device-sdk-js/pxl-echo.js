@@ -18,10 +18,11 @@
 //npm deps
 
 //app deps
-const thingShadow = require('..').thingShadow;
-const isUndefined = require('../common/lib/is-undefined');
+const thingShadow = require('.').thingShadow;
+const isUndefined = require('./common/lib/is-undefined');
 const cmdLineProcess = require('./lib/cmdline');
 
+var exec = require('child_process').exec;
 //begin module
 
 function processTest(args) {
@@ -66,6 +67,21 @@ function processTest(args) {
       .on('delta', function(thingName, stateObject) {
          console.log('received delta on ' + thingName + ': ' +
             JSON.stringify(stateObject));
+
+         // after you get the updated state call your command line function(s)
+         // to render the text on the RGB LED board
+
+         // Create the message.ppm
+         exec("python text_to_ppm.py \'" + stateObject.message_1 + "\'", function (error, out, stderr) {
+            console.log(out);
+         });
+
+         // Run the display with the new message.ppm
+         exec("sudo ./led-matrix -r 32 -c 4 -t 60 -D 1 message.ppm", function (error, out, stderr) {
+            console.log(out);
+         });
+
+
          thingShadows.update(thingName, {
             state: {
                reported: stateObject.state
