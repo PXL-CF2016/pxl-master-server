@@ -4,6 +4,8 @@ awscli==1.10.24
 boto3==1.3.1
 botocore==1.4.15
 djangorestframework==3.3.3
+factory-boy==2.7.0
+fake-factory==0.5.7
 idna==2.1
 markup==0.2
 MarkupSafe==0.23
@@ -17,6 +19,7 @@ psycopg2==2.6.1
 py==1.4.31
 rsa==3.3
 s3transfer==0.0.1
+requests==2.10.0
 zope.component==4.2.2
 zope.deprecation==4.1.2
 zope.event==4.2.0
