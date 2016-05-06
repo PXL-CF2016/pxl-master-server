@@ -1,7 +1,7 @@
 from pxl.board_iot import generate_display, boto_response
 from mock import patch
 from django.test import TestCase, Client
-from pxl.tests.string_generator_test_data import MLB_STRING, NFL_STRING, NHL_STRING, HEADLINE_STRING, WEATHER_STRING
+from string_generator_test_data import MLB_STRING, NFL_STRING, NHL_STRING, HEADLINE_STRING, WEATHER_STRING
 
 
 
