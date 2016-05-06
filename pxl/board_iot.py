@@ -22,6 +22,7 @@ def generate_display(params):
         if params[key] == 'true':
             message_string += data_dict[key]
     boto_response(message_string)
+    return message_string
 
 def boto_response(message):
     """Send a new message to the IOT device."""
