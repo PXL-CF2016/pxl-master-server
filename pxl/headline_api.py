@@ -17,7 +17,7 @@ def get_headline_data():
 
 
 def form_headline_dict():
-    """Form a JSON response for the NPR headline data."""
+    """Form a dict response for the NPR headline data."""
     headlines = get_headline_data()
     headline_json = {'headlines': []}
     for headline in headlines:

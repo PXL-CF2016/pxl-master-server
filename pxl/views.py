@@ -19,12 +19,14 @@ import binascii
 
 
 def get_authorization_header(request):
+    """Return the username and password headers."""
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
     if isinstance(auth, text_type):
         auth = auth.encode(HTTP_HEADER_ENCODING)
     return auth
 
 def return_credentials(request):
+    """Parse the username and password from headers."""
     auth = get_authorization_header(request).split()
 
     if not auth or auth[0].lower() != b'basic':
@@ -54,6 +56,7 @@ def return_credentials(request):
 
 
 class RegisterView(APIView):
+    """Register a new user for the app."""
     throttle_classes = ()
     permission_classes = ()
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
@@ -61,6 +64,7 @@ class RegisterView(APIView):
     serializer_class = serializers.UserSerializer1
 
     def post(self, request, *args, **kwargs):
+        """Post a new user to the app."""
         credentials = return_credentials(request)
         User.objects.create_user(**credentials)
 
@@ -71,6 +75,7 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+    """Login to the app."""
     throttle_classes = ()
     permission_classes = ()
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
@@ -78,6 +83,7 @@ class LoginView(APIView):
     serializer_class = serializers.UserSerializer1
 
     def post(self, request, *args, **kwargs):
+        """Post your login credentials to the app."""
         credentials = return_credentials(request)
 
         user = authenticate(**credentials)
@@ -92,10 +98,12 @@ class LoginView(APIView):
 
 
 class BoardList(APIView):
+    """View for the pxl board model."""
     permission_classes = ()
     serializer_class = serializers.BoardSerializer
 
     def post(self, request, *args, **kwargs):
+        """Post a new board or update a board for a user."""
         token = Token.objects.get(key=request.data['token'])
         user = User.objects.get(username=token.user.username)
         params = {}
