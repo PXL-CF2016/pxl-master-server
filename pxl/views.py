@@ -95,29 +95,6 @@ class BoardList(APIView):
     permission_classes = ()
     serializer_class = serializers.BoardSerializer
 
-    # def get(self, request, *args, **kwargs):
-    #     token = Token.objects.get(key=request.data['token'])
-    #     user = User.objects.get(username=token.user.username)
-    #     try:
-    #         board = models.PXLBoardModel.objects.get(owner=user)
-    #         params = {
-    #             'token': token.key,
-    #             'nfl': board.nfl,
-    #             'nhl': board.nhl,
-    #             'mlb': board.mlb,
-    #             'weather': board.weather,
-    #             'headlines': board.headlines}
-    #         return Response(params)
-    #     except:
-    #         params = {
-    #             'token': token.key,
-    #             'nfl': 'false',
-    #             'nhl': 'false',
-    #             'mlb': 'false',
-    #             'weather': 'false',
-    #             'headlines': 'false'}
-    #         return Response(params)
-
     def post(self, request, *args, **kwargs):
         token = Token.objects.get(key=request.data['token'])
         user = User.objects.get(username=token.user.username)
