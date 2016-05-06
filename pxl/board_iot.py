@@ -24,6 +24,7 @@ def generate_display(params):
     boto_response(message_string)
 
 def boto_response(message):
+    """Send a new message to the IOT device."""
     part_1 = '{ "state": { "desired": { "message_1": "'
     part_3 = '" } } }'
     final_message = ''.join([part_1, message, part_3])

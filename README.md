@@ -1,5 +1,7 @@
 # pxl-master
 
+[![Build Status](https://travis-ci.org/PXL-CF2016/pxl-master-server.svg?branch=staging)](https://travis-ci.org/PXL-CF2016/pxl-master-server)
+
 This repo is for our open source Python/Javascript project that allows users
 to manipulate an LED reader board wirelessly using a Raspberry Pi 2 Model B
 or greater, the Adafruit RGB Matrix HAT + RTC for Raspberry Pi - Mini Kit, 
