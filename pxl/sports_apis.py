@@ -23,7 +23,7 @@ def get_nfl_data():
 
 
 def form_nfl_dict():
-    """Form NFL JSON response."""
+    """Form NFL dict response."""
     nfl_games = get_nfl_data()['ss']
     nfl_json = {'games': []}
     for game in nfl_games:
@@ -75,7 +75,7 @@ def get_mlb_data():
 
 
 def form_mlb_dict():
-    """Form MLB JSON response."""
+    """Form MLB dict response."""
     mlb_data = get_mlb_data()
     mlb_games = json.loads(mlb_data)['data']['games']['game']
     mlb_json = {'games': []}
@@ -134,7 +134,7 @@ def get_nhl_data():
 
 
 def form_nhl_dict():
-    """Form NHL JSON response."""
+    """Form NHL dict response."""
     nhl_games = json.loads(get_nhl_data())['games']
     nhl_json = {'games': []}
     for game in nhl_games:
