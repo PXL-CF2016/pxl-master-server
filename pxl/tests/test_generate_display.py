@@ -6,7 +6,7 @@ from pxl.tests.string_generator_test_data import MLB_STRING, NFL_STRING, NHL_STR
 
 
 class TestDisplayGenerator(TestCase):
-
+    """Test for our API-data string generator function."""
     @patch('pxl.board_iot.form_mlb_string')
     @patch('pxl.board_iot.form_nhl_string')
     @patch('pxl.board_iot.form_weather_string')
